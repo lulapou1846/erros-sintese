@@ -1,0 +1,57 @@
+
+{
+  "name": "insumos",
+  "options": {
+    "validator": {
+      "$jsonSchema": {
+        "bsonType": "object",
+        "required": ["nome", "tipo", "categoria", "preco", "createdAt"],
+        "properties": {
+          "nome": {
+            "bsonType": "string",
+            "description": "Nome do insumo"
+          },
+          "tipo": {
+            "bsonType": "string",
+            "description": "Tipo do insumo"
+          },
+          "categoria": {
+            "bsonType": "string",
+            "description": "Categoria do insumo"
+          },
+          "preco": {
+            "bsonType": "number",
+            "minimum": 0,
+            "description": "Preço do insumo"
+          },
+          "fornecedor": {
+            "bsonType": "string",
+            "description": "Fornecedor do insumo"
+          },
+          "estoque": {
+            "bsonType": "number",
+            "minimum": 0,
+            "description": "Quantidade em estoque"
+          },
+          "creator": {
+            "bsonType": "string",
+            "description": "Criador do insumo"
+          },
+          "createdAt": {
+            "bsonType": "string",
+            "title": "datetime",
+            "description": "Data de criação ISO 8601"
+          },
+          "updatedAt": {
+            "bsonType": "string",
+            "title": "datetime",
+            "description": "Data de atualização ISO 8601"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "validationLevel": "moderate",
+    "validationAction": "warn"
+  }
+}

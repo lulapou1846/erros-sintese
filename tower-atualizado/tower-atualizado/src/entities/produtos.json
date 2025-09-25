@@ -1,0 +1,67 @@
+
+{
+  "name": "produtos",
+  "options": {
+    "validator": {
+      "$jsonSchema": {
+        "bsonType": "object",
+        "required": ["codigo", "descricao", "tipo", "categoria", "unidade", "custoEmbalagem", "custoUnitario", "createdAt"],
+        "properties": {
+          "codigo": {
+            "bsonType": "string",
+            "description": "Código único do produto"
+          },
+          "descricao": {
+            "bsonType": "string",
+            "description": "Descrição do produto"
+          },
+          "tipo": {
+            "bsonType": "string",
+            "description": "Tipo do produto"
+          },
+          "categoria": {
+            "bsonType": "string",
+            "description": "Categoria do produto"
+          },
+          "unidade": {
+            "bsonType": "string",
+            "enum": ["Medida", "Peça", "Kg", "Litro", "Metro"],
+            "description": "Unidade de medida"
+          },
+          "qtdEmbalagem": {
+            "bsonType": "number",
+            "minimum": 0,
+            "description": "Quantidade por embalagem"
+          },
+          "custoEmbalagem": {
+            "bsonType": "number",
+            "minimum": 0,
+            "description": "Custo da embalagem"
+          },
+          "custoUnitario": {
+            "bsonType": "number",
+            "minimum": 0,
+            "description": "Custo unitário"
+          },
+          "creator": {
+            "bsonType": "string",
+            "description": "Criador do produto"
+          },
+          "createdAt": {
+            "bsonType": "string",
+            "title": "datetime",
+            "description": "Data de criação ISO 8601"
+          },
+          "updatedAt": {
+            "bsonType": "string",
+            "title": "datetime",
+            "description": "Data de atualização ISO 8601"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "validationLevel": "moderate",
+    "validationAction": "warn"
+  }
+}

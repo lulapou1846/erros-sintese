@@ -1,0 +1,52 @@
+
+{
+  "name": "categorias",
+  "options": {
+    "validator": {
+      "$jsonSchema": {
+        "bsonType": "object",
+        "required": ["nome", "descricao", "ativa", "createdAt"],
+        "properties": {
+          "nome": {
+            "bsonType": "string",
+            "description": "Nome da categoria"
+          },
+          "descricao": {
+            "bsonType": "string",
+            "description": "Descrição da categoria"
+          },
+          "ativa": {
+            "bsonType": "bool",
+            "description": "Status da categoria"
+          },
+          "cor": {
+            "bsonType": "string",
+            "description": "Cor identificadora da categoria"
+          },
+          "ordem": {
+            "bsonType": "number",
+            "minimum": 0,
+            "description": "Ordem de exibição"
+          },
+          "creator": {
+            "bsonType": "string",
+            "description": "Criador da categoria"
+          },
+          "createdAt": {
+            "bsonType": "string",
+            "title": "datetime",
+            "description": "Data de criação ISO 8601"
+          },
+          "updatedAt": {
+            "bsonType": "string",
+            "title": "datetime",
+            "description": "Data de atualização ISO 8601"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "validationLevel": "moderate",
+    "validationAction": "warn"
+  }
+}
