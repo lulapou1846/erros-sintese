@@ -10,8 +10,6 @@ type RegisterCredentials = {
   username: string
   email: string
   password: string
-  client_name: string
-  client_email: string
 }
 
 type User = {
@@ -112,7 +110,7 @@ export function useAuth() {
     }
   }
 
-  const register = async ({ username, email, password, client_name, client_email }: RegisterCredentials) => {
+  const register = async ({ username, email, password }: RegisterCredentials) => {
     setLoading(true)
     try {
       const response = await fetch(`${API_BASE_URL}/auth/register`, {
@@ -120,7 +118,7 @@ export function useAuth() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username, email, password, client_name, client_email })
+        body: JSON.stringify({ username, email, password })
       })
 
       const data = await response.json()
@@ -237,4 +235,3 @@ export function useAuth() {
     checkAuthStatus
   }
 }
-

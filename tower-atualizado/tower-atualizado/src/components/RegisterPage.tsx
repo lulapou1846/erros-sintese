@@ -1,18 +1,23 @@
+// src/pages/RegisterPage.tsx
+import LogoTower from "../assets/logo-tower.png";
+import FundoTower from "../assets/fundo-tower.png";
+
 import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { Navigate, Link } from "react-router-dom";
+import { Navigate, Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { FaUser, FaLock, FaBuilding, FaEnvelope } from "react-icons/fa";
 
 const RegisterPage: React.FC = () => {
   const { isAuthenticated, register, loading } = useAuth();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    username: "",
+    fullname: "",
+    company: "",
     email: "",
     password: "",
-    confirmPassword: "",
-    client_name: "",
-    client_email: ""
+    confirmPassword: ""
   });
   const [error, setError] = useState<string | null>(null);
 
@@ -31,174 +36,182 @@ const RegisterPage: React.FC = () => {
     e.preventDefault();
     setError(null);
 
-    // Validações
     if (formData.password !== formData.confirmPassword) {
-      setError("As senhas não coincidem");
-      toast.error("As senhas não coincidem");
+      const msg = "As senhas não coincidem";
+      setError(msg);
+      toast.error(msg);
       return;
     }
 
     if (formData.password.length < 6) {
-      setError("A senha deve ter pelo menos 6 caracteres");
-      toast.error("A senha deve ter pelo menos 6 caracteres");
+      const msg = "A senha deve ter pelo menos 6 caracteres";
+      setError(msg);
+      toast.error(msg);
       return;
     }
 
     try {
       await register({
-        username: formData.username,
+        username: formData.fullname,
         email: formData.email,
         password: formData.password,
-        client_name: formData.client_name,
-        client_email: formData.client_email
-      });
+        company: formData.company,
+        client_name: formData.fullname,
+        client_email: formData.email
+      } as any);
+
       toast.success("Conta criada com sucesso!");
-    } catch (err: any) {
-      const errorMessage = err.message || "Erro ao criar conta";
+      navigate("/planos");
+    } catch (err: unknown) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Erro ao criar conta";
       setError(errorMessage);
       toast.error(errorMessage);
     }
   };
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-4 py-8">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center mb-4">
-            <div className="text-blue-500 text-4xl font-bold mr-2">♜</div>
-            <span className="text-white text-3xl font-bold">TOWER</span>
-          </div>
-        </div>
-
-        <div className="bg-gray-900 border border-blue-500/30 rounded-lg p-8 shadow-2xl">
-          <form onSubmit={handleSubmit}>
-            <div className="text-center mb-6">
-              <h2 className="text-white text-2xl font-semibold mb-2">
-                Criar nova conta
-              </h2>
-              <p className="text-gray-400 text-sm">
-                Preencha os dados para começar
-              </p>
-            </div>
-
-            {error && (
-              <p className="text-red-500 text-sm text-center mb-4">{error}</p>
-            )}
-
-            <div className="space-y-4 mb-6">
-              <div>
-                <label className="block text-gray-300 text-sm mb-2">Nome de usuário</label>
-                <input
-                  type="text"
-                  name="username"
-                  value={formData.username}
-                  onChange={handleChange}
-                  placeholder="Seu nome de usuário"
-                  required
-                  className="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-gray-300 text-sm mb-2">E-mail pessoal</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="seu@email.com"
-                  required
-                  className="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-gray-300 text-sm mb-2">Senha</label>
-                <input
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="Mínimo 6 caracteres"
-                  required
-                  className="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-gray-300 text-sm mb-2">Confirmar senha</label>
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  placeholder="Digite a senha novamente"
-                  required
-                  className="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none"
-                />
-              </div>
-
-              <div className="border-t border-gray-700 pt-4">
-                <h3 className="text-gray-300 text-sm mb-3 font-medium">Dados da empresa/cliente</h3>
-                
-                <div className="space-y-3">
-                  <div>
-                    <label className="block text-gray-300 text-sm mb-2">Nome da empresa</label>
-                    <input
-                      type="text"
-                      name="client_name"
-                      value={formData.client_name}
-                      onChange={handleChange}
-                      placeholder="Nome da sua empresa"
-                      required
-                      className="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-gray-300 text-sm mb-2">E-mail da empresa</label>
-                    <input
-                      type="email"
-                      name="client_email"
-                      value={formData.client_email}
-                      onChange={handleChange}
-                      placeholder="contato@empresa.com"
-                      required
-                      className="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? "Criando conta..." : "Criar conta"}
-            </button>
-          </form>
-
-          <div className="text-center mt-6">
-            <p className="text-gray-400 text-sm">
-              Já tem uma conta?{" "}
-              <Link to="/login" className="text-blue-400 cursor-pointer hover:underline">
-                Faça login
-              </Link>
-            </p>
-          </div>
-        </div>
-
-        <div className="text-center mt-8">
-          <p className="text-gray-500 text-sm">
-            ©2025 Estratégicos | Todos os direitos reservados
-          </p>
-        </div>
+    <div
+      className="min-h-screen flex flex-col items-center justify-center px-4"
+      style={{
+        backgroundImage: `url(${FundoTower})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      {/* Logo Tower */}
+      <div className="mb-1">
+        <img src={LogoTower} alt="Tower Logo" className="h-25 object-contain" />
       </div>
+
+      {/* Balão do formulário */}
+      <div className="w-full max-w-md">
+        <div
+          className="bg-black/80 border border-blue-900 rounded-xl p-8 relative"
+          style={{
+            boxShadow:
+              "0 0 4px rgba(37, 99, 235, 0.25), 0 0 8px rgba(30, 64, 175, 0.20)",
+            animation: "neonPulse 6s infinite alternate",
+          }}
+        >
+          <div className="text-center mb-6">
+            <h2 className="text-white text-2xl font-bold">Criar nova conta</h2>
+            <p className="text-gray-400 text-sm">Comece sua jornada conosco</p>
+          </div>
+
+          {error && (
+            <p className="text-red-500 text-sm text-center mb-4">{error}</p>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Nome completo */}
+            <div className="flex items-center bg-black border border-gray-700 rounded-lg px-3">
+              <FaUser className="text-gray-400 mr-3" />
+              <input
+                type="text"
+                name="fullname"
+                value={formData.fullname}
+                onChange={handleChange}
+                placeholder="Seu nome completo"
+                required
+                className="w-full bg-transparent py-3 text-white placeholder-gray-500 focus:outline-none"
+              />
+            </div>
+
+            {/* Empresa */}
+            <div className="flex items-center bg-black border border-gray-700 rounded-lg px-3">
+              <FaBuilding className="text-gray-400 mr-3" />
+              <input
+                type="text"
+                name="company"
+                value={formData.company}
+                onChange={handleChange}
+                placeholder="CNPJ da empresa"
+                required
+                className="w-full bg-transparent py-3 text-white placeholder-gray-500 focus:outline-none"
+              />
+            </div>
+
+            {/* Email */}
+            <div className="flex items-center bg-black border border-gray-700 rounded-lg px-3">
+              <FaEnvelope className="text-gray-400 mr-3" />
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="seu@email.com"
+                required
+                className="w-full bg-transparent py-3 text-white placeholder-gray-500 focus:outline-none"
+              />
+            </div>
+
+            {/* Senha */}
+            <div className="flex items-center bg-black border border-gray-700 rounded-lg px-3">
+              <FaLock className="text-gray-400 mr-3" />
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Crie uma senha"
+                required
+                className="w-full bg-transparent py-3 text-white placeholder-gray-500 focus:outline-none"
+              />
+            </div>
+
+            {/* Confirmar Senha */}
+            <div className="flex items-center bg-black border border-gray-700 rounded-lg px-3">
+              <FaLock className="text-gray-400 mr-3" />
+              <input
+                type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                placeholder="Confirme sua senha"
+                required
+                className="w-full bg-transparent py-3 text-white placeholder-gray-500 focus:outline-none"
+              />
+            </div>
+
+            {/* Botões */}
+            <div className="flex gap-3 mt-6">
+              <Link
+                to="/login"
+                className="flex-1 bg-black text-white text-center py-3 rounded-lg border border-gray-700 hover:bg-gray-800 transition-all duration-200"
+              >
+                Voltar
+              </Link>
+              <button
+                type="submit"
+                disabled={loading}
+                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? "Criando conta..." : "Escolher plano"}
+              </button>
+            </div>
+          </form>
+        </div>
+        <p className="text-gray-500 text-xs text-center mt-6">
+          ©2025 Estrategos | Todos os direitos reservados
+        </p>
+      </div>
+
+      {/* Estilo do neonPulse */}
+      <style>
+        {`
+          @keyframes neonPulse {
+            from {
+              box-shadow: 0 0 4px rgba(37, 99, 235, 0.25), 0 0 8px rgba(30, 64, 175, 0.20);
+            }
+            to {
+              box-shadow: 0 0 6px rgba(37, 99, 235, 0.35), 0 0 12px rgba(30, 64, 175, 0.25);
+            }
+          }
+        `}
+      </style>
     </div>
   );
 };
 
 export default RegisterPage;
-

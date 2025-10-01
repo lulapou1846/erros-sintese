@@ -2,3 +2,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@keyframes neonPulse {
+  0% {
+    box-shadow: 0 0 10px #2563eb, 0 0 20px #1e40af, 0 0 30px #1d4ed8;
+  }
+  100% {
+    box-shadow: 0 0 20px #3b82f6, 0 0 40px #2563eb, 0 0 60px #1e40af;
+  }
+}
+
+.neon-box {
+  box-shadow: 0 0 15px #2563eb, 0 0 30px #1e40af, 0 0 45px #1d4ed8;
+  animation: neonPulse 2s infinite alternate;
+}
