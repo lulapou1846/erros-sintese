@@ -1,4 +1,3 @@
-
 import type { UserConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import { defineConfig } from 'vite'
@@ -37,12 +36,11 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         '@': '/src',
-      }
+      },
     },
     optimizeDeps: {
-      exclude: ['lucide-react'],
+      include: ['react', 'react-dom'],  // 👈 adiciona isso
+      exclude: ['lucide-react'],        // 👈 mantém o que já tinha
     },
   }
 })
-
-//teste rundev

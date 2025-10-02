@@ -1,27 +1,13 @@
-// tsconfig.json
-
 {
   "compilerOptions": {
-    // ... (outras configurações)
-    
-    // IMPORTANTE: Define como o JSX deve ser tratado
-    "jsx": "react-jsx", 
-    
-    // Define o sistema de módulos (pode ser "commonjs" ou "esnext")
-    "module": "esnext", 
-    
-    // Define a versão do JavaScript alvo (o que é gerado)
-    "target": "es2020",
-    
-    // Permite que módulos sem default export sejam importados
-    "allowSyntheticDefaultImports": true,
-    
-    // Permite importar o React com "import React from 'react';"
-    "esModuleInterop": true, 
-    
-    // ... (outras configurações)
+    "target": "ESNext",
+    "module": "ESNext",
+    "jsx": "react-jsx",
+    "moduleResolution": "node",
     "strict": true,
-    "skipLibCheck": true 
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src"]
 }
